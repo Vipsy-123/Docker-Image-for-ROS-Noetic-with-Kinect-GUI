@@ -1,7 +1,6 @@
-#  Use the official ROS Noetic image as the base
+#---------------ROS-Noetic Base File -------------------------#
 FROM osrf/ros:noetic-desktop-full
 
-#---------------ROS-Noetic Base File -------------------------#
 # Example of installing programs
 RUN apt-get update \
     && apt-get install -y \
@@ -45,6 +44,7 @@ WORKDIR /home/$USERNAME/catkin_ws
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
 
 #-------------------------------------------------------------------------------------------#
+USER root
 
 RUN groupadd --gid $USER_GID $USERNAME \
   && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
