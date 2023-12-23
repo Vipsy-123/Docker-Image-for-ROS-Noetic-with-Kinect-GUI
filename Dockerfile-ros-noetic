@@ -1,57 +1,5 @@
-# # Use the official ROS Noetic image as the base
-# FROM osrf/ros:noetic-desktop-full
-
-# # Install additional packages including rgbd-launch and rviz
-# RUN apt-get update && apt-get install -y \
-#     ros-noetic-rgbd-launch \
-#     ros-noetic-rviz \
-#     git-core cmake freeglut3-dev pkg-config build-essential \
-#     libxmu-dev libxi-dev libusb-1.0-0-dev \
-#     && rm -rf /var/lib/apt/lists/*
-
-
-# # Build and install libfreenect
-# WORKDIR /root/src
-# RUN git clone https://github.com/OpenKinect/libfreenect.git && \
-#     cd libfreenect && \
-#     mkdir build && \
-#     cd build && \
-#     cmake -L .. && \
-#     make && \
-#     make install && \
-#     ldconfig /usr/local/lib64/
-
-# # Clone freenect_stack into catkin workspace
-# WORKDIR /root/home/rosuser/catkin_ws/src
-# RUN mkdir -p /root/home/rosuser/catkin_ws/src
-# RUN git clone https://github.com/ros-drivers/freenect_stack.git
-
-# # Set up environment variables for X11 display
-# ENV DISPLAY=:0
-# ENV QT_X11_NO_MITSHM=1
-
-# # Create a non-root user (you can change 'rosuser' to your desired username)
-# RUN useradd -ms /bin/bash vipul
-
-# # Grant 'rosuser' sudo access without requiring a password
-# RUN echo 'vipul ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-
-# # Create a workspace directory (you can mount your ROS workspace here)
-# RUN mkdir -p /workspace
-
-# # Set the workspace as the working directory
-# WORKDIR /workspace
-
-# # Start an interactive shell as the non-root user
-# USER vipul
-
-# # Start an interactive shell
-# CMD ["bash"]
-
-
-# ---------------------------------------------------------------
+#  Use the official ROS Noetic image as the base
 FROM osrf/ros:noetic-desktop-full
-
 
 #---------------ROS-Noetic Base File -------------------------#
 # Example of installing programs
@@ -60,7 +8,8 @@ RUN apt-get update \
     nano \
     vim \
     && rm -rf /var/lib/apt/lists/*
- #---------------- Installing XBOX 360 Kinect dependencies and packages--------------------#
+
+#---------------- Installing XBOX 360 Kinect dependencies and packages--------------------#
 
 # Create a non-root user : change USERNAME=to_your_username
 ARG USERNAME=vipul 
@@ -95,11 +44,7 @@ RUN git clone https://github.com/ros-drivers/freenect_stack.git
 WORKDIR /home/$USERNAME/catkin_ws
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
 
-
 #-------------------------------------------------------------------------------------------#
-
-# Example of copying a file
-# COPY config/ /site_config/
 
 RUN groupadd --gid $USER_GID $USERNAME \
   && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
