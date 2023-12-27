@@ -15,6 +15,11 @@ This Docker image is tailored for running ROS1 Noetic with support for GUI appli
 ```
 > Change vipul with --> your_user_name
 
+#### To Start an exited Docker container 
+```bash
+docker start -ai noetic-container
+```
+
 #### To access another Docker Container Shell
 ```bash
 docker exec -it noetic-container /bin/bash
